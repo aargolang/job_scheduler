@@ -1,0 +1,2 @@
+#!/bin/bash
+git add *.cpp *.h Makefile

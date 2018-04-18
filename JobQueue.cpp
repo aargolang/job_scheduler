@@ -7,12 +7,9 @@ JobQueue::JobQueue(){
 JobQueue::~JobQueue(){
 	
 }
-// void JobQueue::insertJob(Job j){
-void JobQueue::insertJob(int j){
-	
-	
+void JobQueue::insertJob(Job j){
+	heap.push(j);
 }
-// Job JobQueue::findShortest(){
-int JobQueue::findShortest(){
-	return 0;
+Job JobQueue::findShortest(){
+	return heap.top();
 }

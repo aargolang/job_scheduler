@@ -22,10 +22,21 @@ public:
 		n_procs = procs;
 		n_ticks = ticks;
 	}
-	
+
+	/*
+		
 	bool operator<(const Job& rhs){
-		return n_ticks < rhs.n_ticks;
+		if(n_ticks < rhs.n_ticks)
+			return true;
+		return false;
 	}
+	bool operator>(const Job& rhs){
+		if(n_ticks > rhs.n_ticks)
+			return true;
+		return false;
+	}
+
+	*/
 
 	int job_id;
 	string job_description;

@@ -10,6 +10,7 @@ Scheduler::Scheduler()
 void Scheduler::tick(){
 	tickCount = 0;
 	idCount = 0;
+	processors = 20;
 	bool quit = false;
 	char* jobString = nullptr;
 	int newProcessors;
@@ -32,13 +33,39 @@ void Scheduler::tick(){
 			newJob.job_id = idCount;
 			waitingJobs.insertJob(newJob);
 		}
+		Job j;
+		while(waitingJobs.isEmpty() != true){
+			j = waitingJobs.findShortest();
+			if (j.n_procs <= processors){
+				j.end_time = tickCount + j.n_ticks;
+				runningJobs.insertJob(j);
+				processors = processors - j.n_procs;
+				waitingJobs.deleteShortest();
+			}
+			else{
+				break;
+			}
+		}
+		while(runningJobs.isEmpty() != true){
+			j = runningJobs.findShortest();
+			if (j.end_time == tickCount){
+				processors = processors + j.n_procs;
+				cout << j.job_description << " " << j.n_ticks << " " << j.end_time <<endl;
+				runningJobs.deleteShortest();
+			}
+			else{
+				break;
+			}
+		}
+		tickCount++;
 	}
 }
 
-void Scheduler::readFromFile(std::string filename, Scheduler a){
+void Scheduler::readFromFile(char* filename){
 	std::ifstream myfile;
 	myfile.open(filename);
 	string jobString;
+	tickCount++;
 	while (std::getline(myfile, jobString)){
 		Job newJob;
 		char* jobChar = &jobString[0u];
@@ -46,7 +73,33 @@ void Scheduler::readFromFile(std::string filename, Scheduler a){
 		newJob.n_procs = atoi(strtok(jobChar, ","));
 		newJob.n_ticks = atoi(strtok(jobChar, ","));
 		idCount++;		
-		newJob.job_id = a.idCount;
+		newJob.job_id = idCount;
 		waitingJobs.insertJob(newJob);
+		Job j;
+		while(waitingJobs.isEmpty() != true){
+			j = waitingJobs.findShortest();
+			if (j.n_procs <= processors){
+				j.end_time = tickCount + j.n_ticks;
+				runningJobs.insertJob(j);
+				processors = processors - j.n_procs;
+				waitingJobs.deleteShortest();
+			}
+			else{
+				break;
+			}
+		}
+		while(runningJobs.isEmpty() != true){
+			j = runningJobs.findShortest();
+			if (j.end_time == tickCount){
+				processors = processors + j.n_procs;
+				cout << j.job_description << " " << j.n_ticks << " " << j.end_time <<endl;
+				runningJobs.deleteShortest();
+			}
+			else{
+				break;
+			}
+		}
+		tickCount++;
 	}
+	tick();
 }

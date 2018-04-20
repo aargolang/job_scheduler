@@ -19,12 +19,13 @@ public:
 Scheduler();
 int tickCount;
 int idCount;
+int processors;
 void tick();
-void readFromFile(string filename, Scheduler a);
+void readFromFile(char* filename);
 
 private:
 	JobQueue waitingJobs;
-	
+	JobQueue runningJobs;
 
 };
 

@@ -16,10 +16,12 @@ class Scheduler
 public:
 
 Scheduler();
+int tickCount;
+int idCount;
 
 private:
 	JobQueue waitingJobs;
-
+	
 
 };
 

@@ -24,7 +24,8 @@ public:
 	ProcessingQueue();
 	~ProcessingQueue();
 	void insertJob(Job j);
-	void retireJob();	
+	void deleteShortest();
+	bool isEmpty();
 	Job findShortest();
 
 private:

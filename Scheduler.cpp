@@ -12,7 +12,7 @@ void Scheduler::tick(){
 	idCount = 0;
 	processors = 20;
 	bool quit = false;
-	char* jobString = nullptr;
+	string jobString = nullptr;
 	int newProcessors;
 	int newTicks;
 	char addJob;
@@ -20,15 +20,16 @@ void Scheduler::tick(){
 		std::cout << "Do you have a job to add? (y/n)\n";
 		std::cin >> addJob;
 		if (addJob == 'y'){
-			cout << "\nEnter the job in the format <job_description,n_procs,n_ticks>" << endl;
+			cout << "\nEnter the job in the format job_description,n_procs,n_ticks" << endl;
 			std::cin >> jobString;
-			if (std::strstr(jobString, "quit") == nullptr){
+			if (jobString.find("quit") == std::string::npos){
 				break;
 			}
 			Job newJob;
-			newJob.job_description = strtok(jobString, ",");
-			newJob.n_procs = atoi(strtok(jobString, ","));
-			newJob.n_ticks = atoi(strtok(jobString, ","));
+			char* jobChar = &jobString[0u];
+			newJob.job_description = strtok(jobChar, ",");
+			newJob.n_procs = atoi(strtok(jobChar, ","));
+			newJob.n_ticks = atoi(strtok(jobChar, ","));
 			idCount++;
 			newJob.job_id = idCount;
 			waitingJobs.insertJob(newJob);

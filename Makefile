@@ -1,4 +1,4 @@
-OBJS = main.o Scheduler.o JobQueue.o
+OBJS = main.o Scheduler.o JobQueue.o ProcessingQueue.o
 CC = g++
 CPPFLAGS = -Wall -c -g -std=c++11
 LFLAGS = -Wall -g
@@ -14,9 +14,13 @@ Scheduler.o: Scheduler.h Scheduler.cpp
 
 Job.o: JobQueue.h
 	$(CC) $(CPPFLAGS)
+	
 JobQueue.o: JobQueue.h JobQueue.cpp
 	$(CC) $(CPPFLAGS) JobQueue.cpp
-
+	
+ProcessingQueue.o: ProcessingQueue.h ProcessingQueue.cpp
+	$(CC) $(CPPFLAGS) ProcessingQueue.cpp
+	
 clean: 
 	rm -f *.o 
 	rm -f a

@@ -23,7 +23,7 @@ class ProcessingQueue
 public:
 	ProcessingQueue();
 	~ProcessingQueue();
-	void processJob(Job j);
+	void insertJob(Job j);
 	void retireJob();	
 	Job findShortest();
 

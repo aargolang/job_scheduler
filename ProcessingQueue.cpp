@@ -1,5 +1,5 @@
 #include "ProcessingQueue.h"
-// #include "Job.h"
+#include "Job.h"
 
 ProcessingQueue::ProcessingQueue(){
 

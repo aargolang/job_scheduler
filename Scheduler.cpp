@@ -1,4 +1,5 @@
 #include "Scheduler.h"
+#include <cstring>
 
 Scheduler::Scheduler()
 {
@@ -10,7 +11,7 @@ void Scheduler::tick(){
 	tickCount = 0;
 	idCount = 0;
 	bool quit = false;
-	char* jobString;
+	char* jobString = nullptr;
 	int newProcessors;
 	int newTicks;
 	char addJob;
@@ -20,7 +21,7 @@ void Scheduler::tick(){
 		if (addJob == 'y'){
 			cout << "\nEnter the job in the format <job_description,n_procs,n_ticks>" << endl;
 			std::cin >> jobString;
-			if (strstr(jobString, "quit") == nullptr){
+			if (std::strstr(jobString, "quit") == nullptr){
 				break;
 			}
 			Job newJob;
@@ -29,7 +30,7 @@ void Scheduler::tick(){
 			newJob.n_ticks = atoi(strtok(jobString, ","));
 			idCount++;
 			newJob.job_id = idCount;
-			waitingJobs.insertJob;
+			waitingJobs.insertJob(newJob);
 		}
 	}
 }
@@ -46,6 +47,6 @@ void Scheduler::readFromFile(std::string filename, Scheduler a){
 		newJob.n_ticks = atoi(strtok(jobChar, ","));
 		idCount++;		
 		newJob.job_id = a.idCount;
-		waitingJobs.insertJobs;
+		waitingJobs.insertJob(newJob);
 	}
 }

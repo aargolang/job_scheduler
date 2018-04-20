@@ -3,18 +3,16 @@
 
 Scheduler::Scheduler()
 {
+	tickCount = 0;
+	idCount = 0;
+	processors = 20;
 	// default constructor
 	
 }
 
 void Scheduler::tick(){
-	tickCount = 0;
-	idCount = 0;
-	processors = 20;
 	bool quit = false;
-	string jobString = nullptr;
-	int newProcessors;
-	int newTicks;
+	string jobString;
 	char addJob;
 	while (quit == false){
 		std::cout << "Do you have a job to add? (y/n)\n";
@@ -22,14 +20,14 @@ void Scheduler::tick(){
 		if (addJob == 'y'){
 			cout << "\nEnter the job in the format job_description,n_procs,n_ticks" << endl;
 			std::cin >> jobString;
-			if (jobString.find("quit") == std::string::npos){
+			if (jobString.find("quit") != std::string::npos){
 				break;
 			}
 			Job newJob;
 			char* jobChar = &jobString[0u];
 			newJob.job_description = strtok(jobChar, ",");
-			newJob.n_procs = atoi(strtok(jobChar, ","));
-			newJob.n_ticks = atoi(strtok(jobChar, ","));
+			newJob.n_procs = atoi(strtok(NULL, ","));
+			newJob.n_ticks = atoi(strtok(NULL, "\n"));
 			idCount++;
 			newJob.job_id = idCount;
 			waitingJobs.insertJob(newJob);
@@ -37,6 +35,7 @@ void Scheduler::tick(){
 		Job j;
 		while(waitingJobs.isEmpty() != true){
 			j = waitingJobs.findShortest();
+			cout << j.job_description << endl;
 			if (j.n_procs <= processors){
 				j.end_time = tickCount + j.n_ticks;
 				runningJobs.insertJob(j);
@@ -51,7 +50,7 @@ void Scheduler::tick(){
 			j = runningJobs.findShortest();
 			if (j.end_time == tickCount){
 				processors = processors + j.n_procs;
-				cout << j.job_description << " " << j.n_ticks << " " << j.end_time <<endl;
+				cout << j.job_description << " " << j.n_procs << " " << j.n_ticks <<endl;
 				runningJobs.deleteShortest();
 			}
 			else{
@@ -67,12 +66,12 @@ void Scheduler::readFromFile(char* filename){
 	myfile.open(filename);
 	string jobString;
 	tickCount++;
-	while (std::getline(myfile, jobString)){
+	while (getline(myfile,jobString)){
 		Job newJob;
 		char* jobChar = &jobString[0u];
 		newJob.job_description = strtok(jobChar, ",");
-		newJob.n_procs = atoi(strtok(jobChar, ","));
-		newJob.n_ticks = atoi(strtok(jobChar, ","));
+		newJob.n_procs = atoi(strtok(NULL, ","));
+		newJob.n_ticks = atoi(strtok(NULL, ","));
 		idCount++;		
 		newJob.job_id = idCount;
 		waitingJobs.insertJob(newJob);
@@ -93,7 +92,7 @@ void Scheduler::readFromFile(char* filename){
 			j = runningJobs.findShortest();
 			if (j.end_time == tickCount){
 				processors = processors + j.n_procs;
-				cout << j.job_description << " " << j.n_ticks << " " << j.end_time <<endl;
+				cout << j.job_description << " " << j.n_procs << " " << j.n_ticks <<endl;
 				runningJobs.deleteShortest();
 			}
 			else{

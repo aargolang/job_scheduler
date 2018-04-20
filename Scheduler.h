@@ -2,6 +2,7 @@
 #define SCHEDULER
 
 #include <iostream>
+#include <fstream>
 
 #include "Job.h"
 #include "JobQueue.h"
@@ -18,6 +19,8 @@ public:
 Scheduler();
 int tickCount;
 int idCount;
+void tick();
+void readFromFile(string filename, Scheduler a);
 
 private:
 	JobQueue waitingJobs;

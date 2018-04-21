@@ -6,6 +6,7 @@
 
 #include "Job.h"
 #include "JobQueue.h"
+#include "ProcessingQueue.h"
 
 using std::cout;
 using std::endl;
@@ -23,9 +24,9 @@ int processors;
 void tick();
 void readFromFile(char* filename);
 
-private:
+//private:
 	JobQueue waitingJobs;
-	JobQueue runningJobs;
+	ProcessingQueue runningJobs;
 
 };
 

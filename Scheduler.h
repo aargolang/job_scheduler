@@ -18,10 +18,18 @@ class Scheduler
 public:
 
 Scheduler();
+
+bool insertJob(int id, char* description, int procs, int ticks);
+bool checkAvailability(int processorsWanted);
+void runJob(Job &jobToRun);
+void decrementTimer();
+void releaseProcs(int procsToRelease);
+
 int tickCount;
 int idCount;
-int processors;
-void tick();
+int availableProcessors;
+int totalProcessors;
+bool tick();
 void readFromFile(char* filename);
 
 //private:
